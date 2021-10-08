@@ -20,3 +20,4 @@ Usage: pomo [focus] [break] [long_break] [breaks_until_long]
     long_break            Minutes of long break until focus | Default = 15
     breaks_until_long     Number of breaks until long break | Default = 4
 ```
+[![asciicast](https://asciinema.org/a/TEZcWdIyoS8XBdlOGrAOBPkfE.svg)](https://asciinema.org/a/TEZcWdIyoS8XBdlOGrAOBPkfE)
