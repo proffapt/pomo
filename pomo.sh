@@ -1,8 +1,9 @@
 #!/bin/sh
 
 function notify() {
-  msg=$1
-  notify-send -u critical -t 0 -a pomo "${msg:?}"
+  header=$1
+  body=$2
+  notify-send -u critical -t 10000 -a pomo "${header:?}" "${body:?}"
 }
 
 function minutes_to_seconds() {
@@ -10,9 +11,12 @@ function minutes_to_seconds() {
   echo $(($minutes * 60))
 }
 
-function pomo() {
-    example="Example: pomo 15"
+function current_time_plus_minutes() {
+  minutes=$1
+  date -d "$minutes minutes" +'%H:%M'
+}
 
+function pomo() {
     focus_minutes=${1-25} # default = 25
     break_minutes=${2-5} # default = 5
     long_break_minutes=${3-15} # default = 15
@@ -37,16 +41,16 @@ function pomo() {
       while [ $current -le $iterations ]; do 
 	#echo "FOCUS TIME: $(date '+%H:%M')"
 	sleep "${focus_seconds:?}"
-	notify "BREAK: $break_minutes MINUTES"
+	notify "BREAK: $break_minutes MINUTES" "Focus time at $(current_time_plus_minutes $break_minutes)"
 
 	#echo "BREAK TIME: $(date '+%H:%M')"
 	sleep "${break_seconds:?}"
-	notify "FOCUS: $focus_minutes MINUTES"
+	notify "FOCUS: $focus_minutes MINUTES" "Break time at $(current_time_plus_minutes $focus_minutes)"
 
 	current=$(($current + 1))
       done
 	sleep "${long_break_seconds:?}"
-	notify "LONG BREAK: $long_break_minutes MINUTES"
+	notify "LONG BREAK: $long_break_minutes MINUTES" "Focus time at $(current_time_plus_minutes $long_break_minutes)"
     done
 }
 
