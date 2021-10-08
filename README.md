@@ -1,28 +1,19 @@
 # pomo
-Probably the simplest pomodoro timer CLI for Linux
+Almost the simplest pomodoro timer CLI for Linux
 
 ### Installation
-
-You don't have to install it. Just copy the following snippet in your `.profile` / `.bashrc` / `.zshrc`.
-
 ```bash
-function pomo() {
-    arg1=$1
-    shift
-    args="$*"
-
-    min=${arg1:?Example: pomo 15 Take a break}
-    sec=$((min * 60))
-    msg="${args:?Example: pomo 15 Take a break}"
-
-    while true; do
-        date '+%H:%M' && sleep "${sec:?}" && notify-send -u critical -t 0 -a pomo "${msg:?}"
-    done
-}
+sudo wget https://raw.githubusercontent.com/Tashima42/pomo/main/pomo.sh -P /usr/local/bin/pomo
+sudo chmod +x /usr/local/bin/pomo
+restart
 ```
 
 ### Usage
 
 ```
-pomo 15 Take a break
+Usage: pomo [focus] [break] [long_break] [breaks_until_long]
+    focus                 Minutes of focus until break      | Default = 25
+    break                 Minutes of break until focus      | Default = 5
+    long_break            Minutes of long break until focus | Default = 15
+    breaks_until_long     Number of breaks until long break | Default = 4
 ```
