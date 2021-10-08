@@ -3,9 +3,7 @@ Almost the simplest pomodoro timer CLI for Linux
 
 ### Installation
 ```bash
-sudo wget https://raw.githubusercontent.com/Tashima42/pomo/main/pomo.sh -P /usr/local/bin/pomo
-sudo chmod +x /usr/local/bin/pomo
-restart
+sudo sh -c "curl https://raw.githubusercontent.com/Tashima42/pomo/main/pomo.sh > /usr/local/bin/pomo" && sudo chmod +x /usr/local/bin/pomo
 ```
 
 ### Usage
