@@ -3,7 +3,7 @@
 function notify() {
   header=$1
   body=$2
-  notify-send -u critical -t 10000 -a pomo "${header:?}" "${body:?}"
+  notify-send -u critical -t 0 -a pomo "${header:?}" "${body:?}"
 }
 
 function minutes_to_seconds() {
@@ -38,7 +38,7 @@ function pomo() {
     while true; do
       iterations=$breaks_until_long
       current=0
-      while [ $current -le $iterations ]; do 
+      while [ $current -le $(($iterations - 1)) ]; do 
 	#echo "FOCUS TIME: $(date '+%H:%M')"
 	sleep "${focus_seconds:?}"
 	notify "BREAK: $break_minutes MINUTES" "Focus time at $(current_time_plus_minutes $break_minutes)"
