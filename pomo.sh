@@ -39,16 +39,17 @@ function pomo() {
       iterations=$breaks_until_long
       current=0
       while [ $current -le $(($iterations - 1)) ]; do 
-	#echo "FOCUS TIME: $(date '+%H:%M')"
+	echo "FOCUS TIME: $(date '+%H:%M')"
 	sleep "${focus_seconds:?}"
 	notify "BREAK: $break_minutes MINUTES" "Focus time at $(current_time_plus_minutes $break_minutes)"
 
-	#echo "BREAK TIME: $(date '+%H:%M')"
+	echo "BREAK TIME: $(date '+%H:%M')"
 	sleep "${break_seconds:?}"
 	notify "FOCUS: $focus_minutes MINUTES" "Break time at $(current_time_plus_minutes $focus_minutes)"
 
 	current=$(($current + 1))
       done
+	echo "LONG BREAK TIME: $(date '+%H:%M')"
 	sleep "${long_break_seconds:?}"
 	notify "LONG BREAK: $long_break_minutes MINUTES" "Focus time at $(current_time_plus_minutes $long_break_minutes)"
     done
