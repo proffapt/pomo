@@ -14,7 +14,7 @@ sudo rm /usr/local/bin/pomo
 
 ### Usage
 
-```bash
+```
 Usage: pomo [options] focus break long_break breaks_until_long
     options            -h: display help message
     focus              Minutes of focus until break      | Default = 25
