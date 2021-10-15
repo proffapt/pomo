@@ -6,6 +6,23 @@ function notify() {
   notify-send -u critical -t 0 -a pomo "${header:?}" "${body:?}"
 }
 
+function countdown(){
+  MESSAGE=$1
+  shift 1
+  IFS=:
+  set -- $*
+  secs=$(( ${1#0} * 3600 + ${2#0} * 60 + ${3#0} ))
+  while [ $secs -gt 0 ]
+  do
+    sleep 1 &
+    printf "\r%02d:%02d:%02d" $((secs/3600)) $(( (secs/60)%60)) $((secs%60))
+    printf " - $MESSAGE"
+    secs=$(( $secs - 1 ))
+    wait
+  done
+  echo
+}
+
 function minutes_to_seconds() {
   minutes=$1 
   echo $(($minutes * 60))
@@ -39,18 +56,15 @@ function pomo() {
       iterations=$breaks_until_long
       current=0
       while [ $current -le $(($iterations - 1)) ]; do 
-	echo "FOCUS TIME: $(date '+%H:%M')"
-	sleep "${focus_seconds:?}"
+	countdown "FOCUS TIME" "00:00:$focus_seconds"
 	notify "BREAK: $break_minutes MINUTES" "Focus time at $(current_time_plus_minutes $break_minutes)"
 
-	echo "BREAK TIME: $(date '+%H:%M')"
-	sleep "${break_seconds:?}"
+	countdown "BREAK TIME" "00:00:$break_seconds"
 	notify "FOCUS: $focus_minutes MINUTES" "Break time at $(current_time_plus_minutes $focus_minutes)"
 
 	current=$(($current + 1))
       done
-	echo "LONG BREAK TIME: $(date '+%H:%M')"
-	sleep "${long_break_seconds:?}"
+	countdown "LONG BREAK TIME" "00:00:$long_break_seconds"
 	notify "LONG BREAK: $long_break_minutes MINUTES" "Focus time at $(current_time_plus_minutes $long_break_minutes)"
     done
 }
