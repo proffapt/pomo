@@ -58,8 +58,6 @@ function display_summary() {
     breaks_until_long=$4
 
     echo "╔════════════════╦════════╗"
-    echo "║      KEY       ║ VALUE  ║"
-    echo "╠════════════════╬════════╣"
     echo "║ FOCUS          ║   $(printf "%03d\n" $focus_minutes)  ║"
     echo "║ BREAK          ║   $(printf "%03d\n" $break_minutes)  ║"
     echo "║ LONG BREAK     ║   $(printf "%03d\n" $long_break_minutes)  ║"
