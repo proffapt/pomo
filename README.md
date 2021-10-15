@@ -4,12 +4,12 @@ Almost the simplest pomodoro timer CLI for Linux
 ### Installation
 Attention: Always inspect scripts before running
 ```bash
-sudo sh -c "curl https://raw.githubusercontent.com/Tashima42/pomo/main/pomo.sh > /usr/local/bin/pomo" && sudo chmod +x /usr/local/bin/pomo
+curl https://raw.githubusercontent.com/Tashima42/pomo/main/pomo.sh > ~/.local/bin/pomo && sudo chmod +x ~/.local/bin/pomo
 ```
 
 Uninstall:
 ```bash
-sudo rm /usr/local/bin/pomo
+rm ~/.local/bin/pomo
 ```
 
 ### Usage
