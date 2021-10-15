@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ### Send desktop notifications
 ## Params: header {String} - Notification highlighted text
