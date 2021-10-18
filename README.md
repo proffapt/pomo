@@ -3,6 +3,12 @@ Almost the simplest pomodoro timer CLI for Linux
 
 ### Installation
 Attention: Always inspect scripts before running
+
+With sound notifications:
+```bash
+curl https://raw.githubusercontent.com/Tashima42/pomo/main/install-pomo-sound.sh | bash 
+```
+Without sound notifications:
 ```bash
 curl https://raw.githubusercontent.com/Tashima42/pomo/main/pomo.sh > ~/.local/bin/pomo && sudo chmod +x ~/.local/bin/pomo
 ```
