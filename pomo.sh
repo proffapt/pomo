@@ -95,23 +95,26 @@ function main() {
 
     display_summary $focus_minutes $break_minutes $long_break_minutes $breaks_until_long
 
+
     while true; do
-      iterations=$breaks_until_long
+      iterations=$(($breaks_until_long -1))
       current=0
-      while [ $current -le $(($iterations - 1)) ]; do 
+      while [ $current -le $iterations ]; do 
 	countdown "$focus_seconds" "FOCUS TIME" 
 	notify "BREAK: $break_minutes MINUTES" "Focus time at $(current_time_plus_minutes $break_minutes)"
 
 	countdown $break_seconds "BREAK TIME"
-	notify "FOCUS: $focus_minutes MINUTES" "Break time at $(current_time_plus_minutes $focus_minutes)"
+	if [ $current -ne $iterations ]; then
+	  notify "FOCUS: $focus_minutes MINUTES" "Break time at $(current_time_plus_minutes $focus_minutes)"
+	fi
 
 	current=$(($current + 1))
       done
-	countdown $long_break_seconds "LONG BREAK TIME"
 	notify "LONG BREAK: $long_break_minutes MINUTES" "Focus time at $(current_time_plus_minutes $long_break_minutes)"
+	countdown $long_break_seconds "LONG BREAK TIME"
+	notify "FOCUS: $focus_minutes MINUTES" "Break time at $(current_time_plus_minutes $focus_minutes)"
     done
 }
-
 
 ## Help message
 if [ "$1" == "-h" ]; then
