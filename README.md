@@ -16,6 +16,7 @@ curl https://raw.githubusercontent.com/Tashima42/pomo/main/pomo.sh > ~/.local/bi
 Uninstall:
 ```bash
 rm ~/.local/bin/pomo
+rm -rf ~/.config/pomo
 ```
 
 ### Usage
