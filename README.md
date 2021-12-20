@@ -12,6 +12,7 @@ Attention: Always inspect scripts before running
 
 ````bash
 curl https://raw.githubusercontent.com/Tashima42/pomo/main/install-pomo-sound.sh | bash
+```
 
 ### Examples
 * Start a pomodoro with 20 minutes of focus time
