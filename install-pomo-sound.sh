@@ -24,13 +24,19 @@ function install_without_sound() {
   curl https://raw.githubusercontent.com/Tashima42/pomo/main/pomo.sh > ~/.local/bin/pomo && sudo chmod +x ~/.local/bin/pomo
 }
 
-read -p "Install with sound notifications? (y/n)" yn
-case $yn in
-  [Yy]* )
-    install_with_sound
-    break;;
-  [Nn]* )
-    install_without_sound
-    break;;
-  * ) echo "Please answer yes or no.";;
-  esac
+
+mkdir -p $HOME/.local/bin
+
+while true; do
+  read -p "Install with sound notifications? (y/n)" yn
+  case $yn in
+    [Yy]* )
+      install_with_sound
+      break;;
+    [Nn]* )
+      install_without_sound
+      break;;
+    * ) echo "Please answer yes or no.";;
+    esac
+done
+
