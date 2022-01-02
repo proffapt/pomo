@@ -14,6 +14,10 @@ Attention: Always inspect scripts before running
 bash <(curl https://raw.githubusercontent.com/Tashima42/pomo/main/install-pomo-sound.sh)    
 ```
 
+**If you have this error `bash: pomo: command not found`**
+  * Add `~/.local/bin` to your path
+  * `echo 'export PATH=$PATH:$HOME/.local/bin' >> .bashrc`
+
 ### Examples
 * Start a pomodoro with 20 minutes of focus time
     ```bash
