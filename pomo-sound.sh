@@ -1,5 +1,7 @@
 #!/bin/bash
 
+### Support for MacOS and Linux
+kernel=$(uname -s)
 ### Send desktop notifications
 ## Params: header {String} - Notification highlighted text
 ## Params: body {String} - Notification complementary text
@@ -7,8 +9,12 @@
 function notify() {
   header=$1
   body=$2
-  notify-send -u critical -t 0 -a pomo "${header:?}" "${body:?}"
-  aplay ~/.config/pomo/sound.wav &> /dev/null
+  if [[ $kernel == "Darwin" ]]; then
+	osascript -e "display notification \"${body:?}\" with title \"${header:?}\" sound name \"~/.config/pomo/sound.wav\""
+  else
+    notify-send -u critical -t 0 -a pomo "${header:?}" "${body:?}"
+    aplay ~/.config/pomo/sound.wav &> /dev/null
+  fi
 }
 
 ### Show a countdown timer and a message and updates without
@@ -43,7 +49,11 @@ function minutes_to_seconds() {
 #Envia novos funcionários# Returns: {Date} - Current date plus minutes
 function current_time_plus_minutes() {
   minutes=$1
-  date -d "$minutes minutes" +'%H:%M'
+  if [[ $kernel == "Darwin" ]]; then
+	date -v +"${minutes}"M +%R
+  else
+    date -d "$minutes minutes" +'%H:%M'
+  fi
 }
 
 ### Display a summary of the settings defined by the user
