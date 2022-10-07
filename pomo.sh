@@ -10,7 +10,7 @@ function notify() {
   header=$1
   body=$2
   if [[ $kernel == "Darwin" ]]; then
-	  /usr/bin/osascript -e "display notification \"${body:?}\" with title \"${header:?}\""
+	osascript -e "display notification \"${body:?}\" with title \"${header:?}\""
   else
     notify-send -u critical -t 0 -a pomo "${header:?}" "${body:?}"
   fi
@@ -49,7 +49,7 @@ function minutes_to_seconds() {
 function current_time_plus_minutes() {
   minutes=$1
   if [[ $kernel == "Darwin" ]]; then
-	date -v +"${minutes}"M  +%R
+	date -v +"${minutes}"M +%R
   else
     date -d "$minutes minutes" +'%H:%M'
   fi
