@@ -46,3 +46,11 @@ while true; do
     esac
 done
 
+
+echo "${cyan}[==] pomodoro-cli installed!"
+echo "Usage: pd [options] [focus] [break] [long_break] [breaks_until_long]"
+echo "    options            -h: display help message"
+echo "    focus              Minutes of focus until break      | Default = 25"
+echo "    break              Minutes of break until focus      | Default = 5"
+echo "    long_break         Minutes of long break until focus | Default = 15"
+echo "    breaks_until_long  Number of breaks until long break | Default = 4"
