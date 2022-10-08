@@ -7,7 +7,7 @@ blue=$(tput setaf 4)
 cyan=$(tput setaf 6)
 white=$(tput setaf 7)
 
-DOWNLOAD_DIRECTORY=~/.config/pomo
+DOWNLOAD_DIRECTORY=~/.config/pomodoro-cli
 
 function install_with_sound() {
   echo "${green}[+]${white} Installing with sound notifications"
@@ -18,19 +18,19 @@ function install_with_sound() {
 	  if [[ ! -d $DOWNLOAD_DIRECTORY ]]; then
 		  mkdir -p $DOWNLOAD_DIRECTORY 
 	  fi
-      mv ./sound.wav $DOWNLOAD_DIRECTORY  
+      cp ./sound.wav $DOWNLOAD_DIRECTORY  
       echo "${green}[+]${white} Added sound"
   fi
-  echo "${green}[+]${white} Adding pomo executable to your bin folder"
+  echo "${green}[+]${white} Adding pomodoro-cli executable to your bin folder"
   echo "${cyan}[~]${white} ${blue}To do that this script will be requiring your user password${green}"
-  sudo cp ./pomo-sound.sh /usr/local/bin/pomo
+  sudo cp ./pomodoro-sound-cli.sh /usr/local/bin/pd
 }
 
 function install_without_sound() {
   echo "Installing without sound notifications"
-  echo "${green}[+]${white} Adding pomo executable to your bin folder"
+  echo "${green}[+]${white} Adding pomodoro-cli executable to your bin folder"
   echo "${cyan}[~]${white} ${blue}To do that this script will be requiring your user password${green}"
-  sudo cp ./pomo.sh /usr/local/bin/pomo
+  sudo cp ./pomodoro-cli.sh /usr/local/bin/pd
 }
 
 while true; do

@@ -10,10 +10,10 @@ function notify() {
   header=$1
   body=$2
   if [[ $kernel == "Darwin" ]]; then
-	osascript -e "display notification \"${body:?}\" with title \"${header:?}\" sound name \"~/.config/pomo/sound.wav\""
+	osascript -e "display notification \"${body:?}\" with title \"${header:?}\" sound name \"~/.config/pomodoro-cli/sound.wav\""
   else
-    notify-send -u critical -t 0 -a pomo "${header:?}" "${body:?}"
-    aplay ~/.config/pomo/sound.wav &> /dev/null
+    notify-send -u critical -t 0 -a pomodoro-cli "${header:?}" "${body:?}"
+    aplay ~/.config/pomodoro-cli/sound.wav &> /dev/null
   fi
 }
 

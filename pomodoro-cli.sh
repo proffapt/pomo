@@ -12,7 +12,7 @@ function notify() {
   if [[ $kernel == "Darwin" ]]; then
 	osascript -e "display notification \"${body:?}\" with title \"${header:?}\""
   else
-    notify-send -u critical -t 0 -a pomo "${header:?}" "${body:?}"
+    notify-send -u critical -t 0 -a pomodoro-cli "${header:?}" "${body:?}"
   fi
 }
 
