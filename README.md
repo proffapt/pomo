@@ -1,56 +1,46 @@
-## Pomo, a simple CLI pomodoro timer
+## POMODORO-CLI
 
-Pomo is almost the simplest possible pomodoro timer.
+pomodoro-cli is the simplest possible pomodoro timer.
 
 ![image](https://user-images.githubusercontent.com/23709916/146772035-9ee0885f-9102-4d96-bc76-6d141e3702c9.png)
 
-**Pomo will notify you when it's time for a break, or time to focus.**
+**pomodoro-cli will notify you when it's time for a break, or time to focus.**
 
 ### Installation
 
-Attention: Always inspect scripts before running
-
 ```bash
-bash <(curl https://raw.githubusercontent.com/Tashima42/pomo/main/install-pomo-sound.sh)    
+git clone https://github.com/proffapt/pomodoro-cli
+chmod +x install.sh
+./install.sh
 ```
 
-**If you have this error `bash: pomo: command not found`**
-  * Add `~/.local/bin` to your path
-  * `echo 'export PATH=$PATH:$HOME/.local/bin' >> .bashrc`
-
 ### Examples
-* Start a pomodoro with 20 minutes of focus time
+* Start a pomodoro timer with 20 minutes of focus time
     ```bash
-    pomo 20
+    pd 20
     ```
 * 20 minutes of focus time and 3 minutes of break time
     ```bash
-    pomo 20 3
+    pd 20 3
     ```
 * 20 minutes of focus time, 3 minutes of break time and 10 minutes of long break
     ```bash
-    pomo 20 3 10
+    pd 20 3 10
     ```
 * 20 minutes of focus time, 3 minutes of break time, 10 minutes of long break and 4 cicles of focus until long break
     ```bash
-    pomo 20 3 10 4
+    pd 20 3 10 4
     ```
 
 ### Usage
 
 ````
 
-Usage: pomo [options] focus break long_break breaks_until_long
+Usage: pd [options] focus break long_break breaks_until_long
 options -h: display help message
 focus Minutes of focus until break | Default = 25
 break Minutes of break until focus | Default = 5
 long_break Minutes of long break until focus | Default = 15
 breaks_until_long Number of breaks until long break | Default = 4
 
-````
-
-Uninstall:
-```bash
-rm ~/.local/bin/pomo
-rm -rf ~/.config/pomo
 ````
