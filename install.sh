@@ -48,7 +48,7 @@ done
 
 
 echo "${cyan}[==] pomodoro-cli installed!"
-echo "Usage: pd [options] [focus] [break] [long_break] [breaks_until_long]"
+echo "${white}Usage: pd [options] [focus] [break] [long_break] [breaks_until_long]"
 echo "    options            -h: display help message"
 echo "    focus              Minutes of focus until break      | Default = 25"
 echo "    break              Minutes of break until focus      | Default = 5"
