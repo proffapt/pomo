@@ -2,7 +2,10 @@
 
 pomodoro-cli is the simplest possible pomodoro timer.
 
+- Linux
 ![image](https://user-images.githubusercontent.com/23709916/146772035-9ee0885f-9102-4d96-bc76-6d141e3702c9.png)
+- macOS
+![image](https://user-images.githubusercontent.com/86282911/194737349-f2b4f840-0371-4090-b348-6ed531a6b97f.png)
 
 **pomodoro-cli will notify you when it's time for a break, or time to focus.**
 
