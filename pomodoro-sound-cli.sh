@@ -18,20 +18,30 @@ function notify() {
 }
 
 ### Show a countdown timer and a message and updates without
-### cleaning the whole screen
-## Params: seconds {Number} - Countdown time in seconds 
+### cleaning the whole screen. Also kills apps if needed
+## Params: seconds {Number} - Countdown time in seconds
+## Params: is_focus_time {String} - "FOCUS" or "BREAK" or "LONG_BREAK"
+## Params: app_names {String} - Comma separated list of apps to kill
 ## Params: message {String} - Timer description
+## Item: IFS=',' is (Internal Field Separator) set to comma
 ## Returns: {String} - "hh:mm:ss - $message"
 function countdown(){
   secs=$1
   is_focus_time=$2
-  app_name=$3
+  app_names=$3
+  message=$4
+
+  IFS=','
+  read -ra arr <<< "$app_names"
+
   shift
-  message=$*
+  
   while [ "$secs" -gt -1 ]
   do
     if [[ $is_focus_time == "FOCUS" ]]; then
-      pkill --signal STOP "$app_name"
+      for app_name in "${arr[@]}"; do
+        pkill --signal STOP "$app_name"
+      done
     fi
     sleep 1 &
     printf "\r%s - %02d:%02d:%02d" "$message" $((secs/3600)) $(((secs/60)%60)) $((secs%60))
@@ -39,7 +49,9 @@ function countdown(){
     wait
   done
   if [[ $is_focus_time == "FOCUS" ]]; then
-    pkill --signal CONT "$app_name"
+    for app_name in "${arr[@]}"; do
+      pkill --signal CONT "$app_name"
+    done
   fi
   echo
 }
@@ -69,6 +81,7 @@ function current_time_plus_minutes() {
 ## Params: break_minutes {Number} - Ammount of minutes to last a break period
 ## Params: long_break_minutes {Number} - Ammount of minutes to last a long break period
 ## Params: breaks_until_long {Number} - Ammount of breaks until a long break period starts
+## Params: apps_to_kill {String} - Comma separated list of apps to kill
 ## Returns: {String} - Formatted summary of the settings
 function display_summary() {
     focus_minutes=$1
@@ -82,8 +95,8 @@ function display_summary() {
     echo "║ BREAK          ║   $(printf "%03d\n" "$break_minutes")  ║"
     echo "║ LONG BREAK     ║   $(printf "%03d\n" "$long_break_minutes")  ║"
     echo "║ BREAKS TL LONG ║   $(printf "%03d\n" "$breaks_until_long")  ║"
-    echo "║ APPS TO AVOID  ║   $(printf "$apps_to_kill")  ║"
     echo "╚════════════════╩════════╝"
+    echo "║ APPS TO AVOID  ║$(printf "$apps_to_kill")"
 }
 
 ### Display a help message
@@ -95,6 +108,7 @@ function display_help() {
   echo "    break              Minutes of break until focus      | Default = 5"
   echo "    long_break         Minutes of long break until focus | Default = 15"
   echo "    breaks_until_long  Number of breaks until long break | Default = 4"
+  echo "    apps_to_kill       ',' separated list of apps to kill| Default = none"
 }
 
 ### Controls the application flow, parse arguments, show the countdown and notifications
@@ -102,6 +116,7 @@ function display_help() {
 ## Params: break_minutes {Number} - Ammount of minutes to last a break period
 ## Params: long_break_minutes {Number} - Ammount of minutes to last a long break period
 ## Params: breaks_until_long {Number} - Ammount of breaks until a long break period starts
+## Params: apps_to_kill {String} - Comma separated list of apps to kill
 ## Returns: {Void}
 function main() {
     focus_minutes=$1
@@ -119,17 +134,17 @@ function main() {
 
     while true; do
       for (( i=1; i<=breaks_until_long; i++ )); do
-	countdown "$focus_seconds" "FOCUS" "$apps_to_kill"
+	countdown "$focus_seconds" "FOCUS" "$apps_to_kill" "FOCUS TIME"
 	notify "BREAK: $break_minutes MINUTES" "Focus time at $(current_time_plus_minutes "$break_minutes")"
 
 	if [ $((i)) -ne "$breaks_until_long" ]; then
-	  countdown "$break_seconds" "BREAK TIME" "none"
+	  countdown "$break_seconds" "BREAK" "none" "BREAK TIME"
 	  notify "FOCUS: $focus_minutes MINUTES" "Break time at $(current_time_plus_minutes "$focus_minutes")"
 	else
 	  notify "LONG BREAK: $long_break_minutes MINUTES" "Focus time at $(current_time_plus_minutes "$long_break_minutes")"
 	fi
       done
-	countdown "$long_break_seconds" "LONG BREAK TIME" "none"
+	countdown "$long_break_seconds" "LONG BREAK" "none" "LONG BREAK TIME"
 	notify "FOCUS: $focus_minutes MINUTES" "Break time at $(current_time_plus_minutes "$focus_minutes")"
     done
 }
