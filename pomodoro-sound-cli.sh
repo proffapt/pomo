@@ -24,15 +24,23 @@ function notify() {
 ## Returns: {String} - "hh:mm:ss - $message"
 function countdown(){
   secs=$1
+  is_focus_time=$2
+  app_name=$3
   shift
   message=$*
   while [ "$secs" -gt -1 ]
   do
+    if [[ $is_focus_time == "FOCUS" ]]; then
+      pkill --signal STOP "$app_name"
+    fi
     sleep 1 &
     printf "\r%s - %02d:%02d:%02d" "$message" $((secs/3600)) $(((secs/60)%60)) $((secs%60))
     secs=$(( secs - 1 ))
     wait
   done
+  if [[ $is_focus_time == "FOCUS" ]]; then
+    pkill --signal CONT "$app_name"
+  fi
   echo
 }
 
@@ -67,12 +75,14 @@ function display_summary() {
     break_minutes=$2
     long_break_minutes=$3
     breaks_until_long=$4
+    apps_to_kill=$5
 
     echo "╔════════════════╦════════╗"
     echo "║ FOCUS          ║   $(printf "%03d\n" "$focus_minutes")  ║"
     echo "║ BREAK          ║   $(printf "%03d\n" "$break_minutes")  ║"
     echo "║ LONG BREAK     ║   $(printf "%03d\n" "$long_break_minutes")  ║"
     echo "║ BREAKS TL LONG ║   $(printf "%03d\n" "$breaks_until_long")  ║"
+    echo "║ APPS TO AVOID  ║   $(printf "$apps_to_kill")  ║"
     echo "╚════════════════╩════════╝"
 }
 
@@ -98,27 +108,28 @@ function main() {
     break_minutes=$2
     long_break_minutes=$3
     breaks_until_long=$4
+    apps_to_kill=$5
 
     focus_seconds=$(minutes_to_seconds "$focus_minutes")
     break_seconds=$(minutes_to_seconds "$break_minutes")
     long_break_seconds=$(minutes_to_seconds "$long_break_minutes")
 
 
-    display_summary "$focus_minutes" "$break_minutes" "$long_break_minutes" "$breaks_until_long"
+    display_summary "$focus_minutes" "$break_minutes" "$long_break_minutes" "$breaks_until_long" "$apps_to_kill"
 
     while true; do
       for (( i=1; i<=breaks_until_long; i++ )); do
-	countdown "$focus_seconds" "FOCUS TIME" 
+	countdown "$focus_seconds" "FOCUS" "$apps_to_kill"
 	notify "BREAK: $break_minutes MINUTES" "Focus time at $(current_time_plus_minutes "$break_minutes")"
 
 	if [ $((i)) -ne "$breaks_until_long" ]; then
-	  countdown "$break_seconds" "BREAK TIME"
+	  countdown "$break_seconds" "BREAK TIME" "none"
 	  notify "FOCUS: $focus_minutes MINUTES" "Break time at $(current_time_plus_minutes "$focus_minutes")"
 	else
 	  notify "LONG BREAK: $long_break_minutes MINUTES" "Focus time at $(current_time_plus_minutes "$long_break_minutes")"
 	fi
       done
-	countdown "$long_break_seconds" "LONG BREAK TIME"
+	countdown "$long_break_seconds" "LONG BREAK TIME" "none"
 	notify "FOCUS: $focus_minutes MINUTES" "Break time at $(current_time_plus_minutes "$focus_minutes")"
     done
 }
@@ -129,4 +140,4 @@ if [ "$1" == "-h" ]; then
   exit 0
 fi
 
-main "${1-25}" "${2-5}" "${3-15}" "${4-4}"
+main "${1-25}" "${2-5}" "${3-15}" "${4-4}" "${5-none}"
