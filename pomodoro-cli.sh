@@ -10,7 +10,7 @@ function notify() {
   header=$1
   body=$2
   if [[ $kernel == "Darwin" ]]; then
-	osascript -e "display notification \"${body:?}\" with title \"${header:?}\" sound name \"~/.config/pomodoro-cli/sound.wav\""
+	osascript -e "display notification \"${body:?}\" with title \"${header:?}\""
   else
     notify-send -u critical -t 0 -a pomodoro-cli "${header:?}" "${body:?}"
   fi
@@ -39,7 +39,10 @@ function countdown(){
   do
     if [[ $is_focus_time == "FOCUS" ]]; then
       for app_name in "${arr[@]}"; do
-        pkill --signal STOP "$app_name"
+        if pgrep -x "$app_name" > /dev/null
+        then
+          pkill "$app_name"
+        fi
       done
     fi
     sleep 1 &
@@ -47,11 +50,6 @@ function countdown(){
     secs=$(( secs - 1 ))
     wait
   done
-  if [[ $is_focus_time == "FOCUS" ]]; then
-    for app_name in "${arr[@]}"; do
-      pkill --signal CONT "$app_name"
-    done
-  fi
   echo
 }
 
@@ -65,7 +63,7 @@ function minutes_to_seconds() {
 
 ### Add minutes to current time
 ## Params: minutes {Number} - Ammounts of minutes to be added
-#Envia novos funcionários# Returns: {Date} - Current date plus minutes
+# Returns: {Date} - Current date plus minutes
 function current_time_plus_minutes() {
   minutes=$1
   if [[ $kernel == "Darwin" ]]; then
@@ -94,8 +92,8 @@ function display_summary() {
     echo "║ BREAK          ║   $(printf "%03d\n" "$break_minutes")  ║"
     echo "║ LONG BREAK     ║   $(printf "%03d\n" "$long_break_minutes")  ║"
     echo "║ BREAKS TL LONG ║   $(printf "%03d\n" "$breaks_until_long")  ║"
-    echo "╚════════════════╩════════╝"
     echo "║ APPS TO AVOID  ║$(printf "$apps_to_kill")"
+    echo "╚════════════════╩════════╝"
 }
 
 ### Display a help message
