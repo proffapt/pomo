@@ -34,7 +34,7 @@ chmod +x install.sh
     ```bash
     pd 20 3 10 4
     ```
-* 20 minutes of focus time, 3 minutes of break time, 10 minutes of long break and 4 cicles of focus until long break. Disable Minecract and Cheese during focus time. You need to enter the name of the apps you would use to start it through the terminal.(separated by commas)
+* 20 minutes of focus time, 3 minutes of break time, 10 minutes of long break and 4 cycles of focus until long break. Disable Minecraft and Cheese during focus time. You need to enter the name of the apps you would use to start it through the terminal.(separated by commas)
     ```bash
     pd 20 3 10 4 minecraft,cheese
     ```

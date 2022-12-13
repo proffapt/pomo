@@ -19,8 +19,6 @@ function notify() {
 ### Show a countdown timer and a message and updates without
 ### cleaning the whole screen. Also kills apps if needed
 ## Params: seconds {Number} - Countdown time in seconds
-## Params: is_focus_time {String} - "FOCUS" or "BREAK" or "LONG_BREAK"
-## Params: app_names {String} - Comma separated list of apps to kill
 ## Params: message {String} - Timer description
 ## Item: IFS=',' is (Internal Field Separator) set to comma
 ## Returns: {String} - "hh:mm:ss - $message"
@@ -31,13 +29,14 @@ function countdown(){
   message=$4
 
   IFS=','
-  read -ra arr <<< "$app_names"
+  read -ra arr <<< "$apps_to_kill"
 
   shift
+  message=$*
   
   while [ "$secs" -gt -1 ]
   do
-    if [[ $is_focus_time == "FOCUS" ]]; then
+    if [[ $message == "FOCUS TIME" ]]; then
       for app_name in "${arr[@]}"; do
         if pgrep -x "$app_name" > /dev/null
         then
@@ -63,7 +62,7 @@ function minutes_to_seconds() {
 
 ### Add minutes to current time
 ## Params: minutes {Number} - Ammounts of minutes to be added
-# Returns: {Date} - Current date plus minutes
+## Returns: {Date} - Current date plus minutes
 function current_time_plus_minutes() {
   minutes=$1
   if [[ $kernel == "Darwin" ]]; then
@@ -131,17 +130,17 @@ function main() {
 
     while true; do
       for (( i=1; i<=breaks_until_long; i++ )); do
-	countdown "$focus_seconds" "FOCUS" "$apps_to_kill" "FOCUS TIME"
+	countdown "$focus_seconds" "FOCUS TIME"
 	notify "BREAK: $break_minutes MINUTES" "Focus time at $(current_time_plus_minutes "$break_minutes")"
 
 	if [ $((i)) -ne "$breaks_until_long" ]; then
-	  countdown "$break_seconds" "BREAK" "none" "BREAK TIME"
+	  countdown "$break_seconds" "BREAK TIME"
 	  notify "FOCUS: $focus_minutes MINUTES" "Break time at $(current_time_plus_minutes "$focus_minutes")"
 	else
 	  notify "LONG BREAK: $long_break_minutes MINUTES" "Focus time at $(current_time_plus_minutes "$long_break_minutes")"
 	fi
       done
-	countdown "$long_break_seconds" "LONG BREAK" "none" "LONG BREAK TIME"
+	countdown "$long_break_seconds" "LONG BREAK TIME"
 	notify "FOCUS: $focus_minutes MINUTES" "Break time at $(current_time_plus_minutes "$focus_minutes")"
     done
 }
@@ -152,4 +151,4 @@ if [ "$1" == "-h" ]; then
   exit 0
 fi
 
-main "${1-25}" "${2-5}" "${3-15}" "${4-4}" "${5-none}"
+main "${1:-25}" "${2:-5}" "${3:-15}" "${4:-4}" "${5:-none}"
