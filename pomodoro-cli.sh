@@ -24,10 +24,7 @@ function notify() {
 ## Returns: {String} - "hh:mm:ss - $message"
 function countdown(){
   secs=$1
-  is_focus_time=$2
-  app_names=$3
-  message=$4
-
+  
   IFS=','
   read -ra arr <<< "$apps_to_kill"
 
