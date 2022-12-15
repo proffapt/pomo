@@ -8,6 +8,22 @@ pomodoro-cli is the simplest possible pomodoro timer.
 ![image](https://user-images.githubusercontent.com/86282911/194737349-f2b4f840-0371-4090-b348-6ed531a6b97f.png)
 
 **pomodoro-cli will notify you when it's time for a break, or time to focus.**
+## Prerequisite
+Need zenity package in Linux.
+```
+  zenity --version
+```
+if it shows version then its well and good but if it doesnot
+
+Update the package index:
+```
+ sudo apt-get update
+```
+Install zenity deb package:
+```
+ sudo apt-get install zenity
+
+```
 
 ### Installation
 

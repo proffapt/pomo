@@ -13,7 +13,7 @@ function notify() {
 	osascript -e "display notification \"${body:?}\" with title \"${header:?}\""
   else
   #timer here is the svg file which is logo for the notification
-    notify-send -i timer -t 0 -a pomodoro-cli "${header:?}" "${body:?}"
+    notify-send -i ~/pomodoro-cli/svg/timer.svg -t 0 -a pomodoro-cli "${header:?}" "${body:?}"
   fi
 }
 
