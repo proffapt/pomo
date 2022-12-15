@@ -12,7 +12,8 @@ function notify() {
   if [[ $kernel == "Darwin" ]]; then
 	osascript -e "display notification \"${body:?}\" with title \"${header:?}\""
   else
-    notify-send -u critical -t 0 -a pomodoro-cli "${header:?}" "${body:?}"
+  #timer here is the svg file which is logo for the notification
+    notify-send -i ~/pomodoro-cli/svg/timer.svg -t 0 -a pomodoro-cli "${header:?}" "${body:?}"
   fi
 }
 
@@ -101,7 +102,12 @@ function main() {
     focus_seconds=$(minutes_to_seconds "$focus_minutes")
     break_seconds=$(minutes_to_seconds "$break_minutes")
     long_break_seconds=$(minutes_to_seconds "$long_break_minutes")
-
+     #Creating alert and asking for reiwing its inputs
+      zenity --error --title 'Review your break!!' \
+      --text " $focus_minutes minutes to last a focus period and $break_minutes minutes to last a break period $long_break_minutes  minutes to last a long break period
+      $breaks_until_long  breaks until a long break period starts"\
+      --ok-label Accept  \
+      --extra-button  Dont_Accept
 
     display_summary "$focus_minutes" "$break_minutes" "$long_break_minutes" "$breaks_until_long"
 
