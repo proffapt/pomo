@@ -60,7 +60,7 @@ function minutes_to_seconds() {
 
 ### Add minutes to current time
 ## Params: minutes {Number} - Ammounts of minutes to be added
-# Returns: {Date} - Current date plus minutes
+## Returns: {Date} - Current date plus minutes
 function current_time_plus_minutes() {
   minutes=$1
   if [[ $kernel == "Darwin" ]]; then
@@ -122,7 +122,12 @@ function main() {
     focus_seconds=$(minutes_to_seconds "$focus_minutes")
     break_seconds=$(minutes_to_seconds "$break_minutes")
     long_break_seconds=$(minutes_to_seconds "$long_break_minutes")
-
+     #Creating alert and asking for reiwing its inputs
+      zenity --error --title 'Review your break!!' \
+      --text " $focus_minutes minutes to last a focus period and $break_minutes minutes to last a break period $long_break_minutes  minutes to last a long break period
+      $breaks_until_long  breaks until a long break period starts"\
+      --ok-label Accept  \
+      --extra-button  Dont_Accept
 
     display_summary "$focus_minutes" "$break_minutes" "$long_break_minutes" "$breaks_until_long" "$apps_to_kill"
 

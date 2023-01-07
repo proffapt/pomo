@@ -9,7 +9,7 @@ white=$(tput setaf 7)
 
 DOWNLOAD_DIRECTORY=~/.config/pomodoro-cli
 
-function install_with_sound() {
+function install() {
   echo "${green}[+]${white} Installing with sound notifications"
   if [ -e $DOWNLOAD_DIRECTORY/sound.wav ]
   then
@@ -26,25 +26,7 @@ function install_with_sound() {
   sudo cp ./pomodoro-sound-cli.sh /usr/local/bin/pd
 }
 
-function install_without_sound() {
-  echo "Installing without sound notifications"
-  echo "${green}[+]${white} Adding pomodoro-cli executable to your bin folder"
-  echo "${cyan}[~]${white} ${blue}To do that this script will be requiring your user password${green}"
-  sudo cp ./pomodoro-cli.sh /usr/local/bin/pd
-}
-
-while true; do
-  read -rp "${cyan}[~]${white} Install with sound notifications? (y/n): " yn
-  case $yn in
-    [Yy]* )
-      install_with_sound
-      break;;
-    [Nn]* )
-      install_without_sound
-      break;;
-    * ) echo "Please answer 'yes' or 'no'.";;
-    esac
-done
+install 
 
 echo "${cyan}[==] pomodoro-cli installed!"
 echo "
